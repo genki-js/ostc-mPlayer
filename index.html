@@ -3,33 +3,81 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Audio UI</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             display: flex;
             font-family: system-ui, sans-serif;
             background: #e7e7e7;
-            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+            padding: 20px;
         }
 
         .sidebar {
             width: 300px;
-            height: 100vh;
+            height: calc(100vh - 40px);
             background: #fff;
-            position: fixed;
-            left: 0;
-            top: 0;
+            border-radius: 12px;
+            flex-shrink: 0;
         }
 
         .player {
-            width: 300px;
+            width: 100%;
+            max-width: 400px;
             background: #fff;
             padding: 16px;
             border-radius: 12px;
+            margin: auto;
+        }
+
+        /* タブレット */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .sidebar {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                max-height: 300px;
+                order: 2;
+            }
+            .player {
+                order: 1;
+            }
+        }
+
+        /* モバイル */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                gap: 10px;
+            }
+            .sidebar {
+                max-width: 100%;
+                max-height: 250px;
+            }
+            .player {
+                max-width: 100%;
+                padding: 12px;
+            }
         }
 
         .player span {
@@ -78,19 +126,61 @@
         }
         #playlist {
             padding: 16px;
-            height: calc(100vh - 32px);
-            overflow-y: scroll;
-            width: calc(100% - 32px);
+            height: 100%;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        @media (max-width: 900px) {
+            #playlist {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                height: auto;
+            }
         }
         .track {
             display: flex;
             gap: 12px;
             align-items: center;
             padding: 10px;
-            width: calc(100% - 20px);
+            width: 100%;
             height: 80px;
             background-color: #f7f7f7;
             border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .track:hover {
+            background-color: #efefef;
+        }
+
+        @media (max-width: 900px) {
+            .track {
+                width: calc(50% - 4px);
+                height: 60px;
+                margin-bottom: 0;
+            }
+            .track .cover {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .track {
+                width: 100%;
+                height: 50px;
+            }
+            .track .cover {
+                width: 40px;
+                height: 40px;
+            }
+            .track-info {
+                font-size: 12px;
+            }
         }
         .track .cover {
             width: 64px;
@@ -116,18 +206,29 @@
         #albumcover {
             padding: 20px;
             text-align: center;
-            width: 260px;
-            height: 260px;
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 260px;
+            margin: 0 auto;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 480px) {
+            #albumcover {
+                max-width: 200px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="sidebar">
-        <div id="playlist">
+    <div class="container">
+        <div class="sidebar">
+            <div id="playlist">
+            </div>
         </div>
-    </div>
-    <div class="player">
+        <div class="player">
         <div id="albumcover">
 
         </div>
@@ -143,6 +244,7 @@
         </div>
 
         <audio id="audio" src="music/title.wav"></audio>
+        </div>
     </div>
 
     <script>
@@ -216,6 +318,12 @@
             {
                 title: "ピアノドラム",
                 src: "music/ピクとる演奏.wav",
+                artist: "genki",
+                jacket: "img/albumcover/genki1.png",
+            },
+            {
+                title: "saikounirokku",
+                src: "music/saikounirokku.wav",
                 artist: "genki",
                 jacket: "img/albumcover/genki1.png",
             }
